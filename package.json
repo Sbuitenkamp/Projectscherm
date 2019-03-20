@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/Sbuitenkamp/Projectscherm#readme",
   "dependencies": {
+    "http": "0.0.0",
     "mysql2": "^1.6.5",
     "sequelize": "^5.1.0"
   }

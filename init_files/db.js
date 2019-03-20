@@ -2,16 +2,9 @@ const Sequelize = require('sequelize');
 module.exports = async () => {
     const sequelize = new Sequelize('projectscherm', 'root', '', {
         host: 'localhost',
-        dialect: 'mysql'
+        dialect: 'mysql',
+        logging: false
     });
-    // sequelize
-    //     .authenticate()
-    //     .then(() => {
-    //         console.log('Connection has been established successfully.');
-    //     })
-    //     .catch(err => {
-    //         console.error('Unable to connect to the database:', err);
-    //     });
     const teams = sequelize.define('teams', {
         id: {
             type: Sequelize.INTEGER,

@@ -1,0 +1,1 @@
+const db = require('./init_files/db')();

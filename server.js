@@ -1,18 +1,6 @@
 const http = require('http');
 const fs = require('fs');
 const url = require('url');
-let db;
-fs.readdir('./init_files', (err, files) => {
-    if (err) console.error(err);
-    files.forEach(async file => {
-        const init = require(`./init_files/${file}`);
-        const res = await init.execute();
-        if (init.name === 'dbinit') {
-            for (const table in res) await res[table].sync();
-            db = res;
-        }
-    });
-});
 
 function onRequest(request, response) {
     let path = url.parse(request.url).pathname;

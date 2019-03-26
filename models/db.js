@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 module.exports = {
     name: 'dbinit',
-    execute() {
+    async execute() {
         const sequelize = new Sequelize('projectscherm', 'root', '', {
             host: 'localhost',
             dialect: 'mysql',
@@ -70,10 +70,12 @@ module.exports = {
             description: { type: Sequelize.STRING },
             lastUpdate: { type: Sequelize.INTEGER }
         });
-        return {
+        const tables = {
             teams,
             managers,
             projects
         };
+        for (const table in tables) await tables[table].sync();
+        return tables;
     }
 };

@@ -1,8 +1,9 @@
 const http = require('http');
 const fs = require('fs');
 const url = require('url');
+const db = require('./models/db')();
 
-function onRequest(request, response) {
+async function onRequest(request, response) {
     let path = url.parse(request.url).pathname;
     response.writeHead(200, { 'Content-Type': 'text/html' });
     if (path === '/') loadFile('/index', response);
@@ -25,6 +26,24 @@ function loadFile(path, response) {
             response.write('Page not found');
         } else response.write(data);
         // TODO create post request
+        // fs.exists(`./controllers${path}.js`, (exist) => {
+        //     if(!exist) {
+        //         // if the file is not found, return 404
+        //         response.statusCode = 404;
+        //         response.end(`File ${path} not found!`);
+        //         return;
+        //     }
+        //     // read file from file system
+        //     fs.readFile(`./controllers${path}.js`, (err, data) => {
+        //         if(err){
+        //             response.statusCode = 500;
+        //             response.end(`Error getting the file: ${err}.`);
+        //         } else {
+        //             response.setHeader('Content-type', 'text/javascript');
+        //             response.end(data);
+        //         }
+        //     });
+        // });
         response.end();
     });
 }

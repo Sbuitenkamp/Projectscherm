@@ -1,2 +1,3 @@
-const db = (async () => await require('../models/db'))();
-db.projects.findOne({ where: { id: 1 } }).then(res => console.log(res));
+$.post('/select', { table: 'projects', options: { where: { id: 1 } } }, data => {
+    console.log(data);
+});

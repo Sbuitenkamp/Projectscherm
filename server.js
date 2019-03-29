@@ -9,6 +9,7 @@ const port = process.env.PORT || 4200;
 // server init
 app.listen(port, () => console.log('Server listening at http://localhost:4200'));
 app.use(express.static(`${__dirname}/controllers`));
+app.use(express.static(`${__dirname}/styles`));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 

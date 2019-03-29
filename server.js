@@ -10,10 +10,11 @@ const port = process.env.PORT || 4200;
 app.listen(port, () => console.log('Server listening at http://localhost:4200'));
 app.use(express.static(`${__dirname}/controllers`));
 app.use(express.static(`${__dirname}/styles`));
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 // GET/POST
+app.get('/', (req, res) => res.redirect('/index'));
 app.get('/:path', (req, res) => {
     if (req.params.path.includes('.')) {
         req.params.path = (() => {
@@ -33,6 +34,7 @@ app.post('/create', async (req, res) => {
 });
 
 app.post('/select', async (req, res) => {
+    console.log(req.body.options);
     const data = await select(req.body.table, req.body.options);
     res.send(data);
 });
@@ -58,7 +60,8 @@ async function create(table, values) {
 async function select(table, options) {
     if (!table) return;
     if (!options) options = {};
-    return await db[table].findOne(options).then(res => res);
+    if (options.limit === 1) return await db[table].findOne(options).then(res => res);
+    else return await db[table].findAll(options).then(res => res);
 }
 
 async function update(table, values, options) {

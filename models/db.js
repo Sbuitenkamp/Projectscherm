@@ -65,7 +65,10 @@ module.exports = () => {
         startDate: { type: Sequelize.INTEGER },
         endDate: { type: Sequelize.INTEGER },
         delay: { type: Sequelize.INTEGER },
-        description: { type: Sequelize.STRING },
+        description: {
+            type: Sequelize.STRING,
+            defaultValue: null
+        },
         lastUpdate: { type: Sequelize.INTEGER }
     });
     const tables = {

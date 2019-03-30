@@ -1,4 +1,4 @@
-function getOverview() {
+window.onload = () => {
     $.post('/select', {
         table: 'projects',
         options: {
@@ -23,6 +23,4 @@ function getOverview() {
             }
         });
     });
-}
-
-getOverview();
+};

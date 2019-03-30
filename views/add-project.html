@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Een project toevoegen</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="generalFunctions.js"></script>
+    <script src="add-project.js"></script>
+</head>
+<body>
+    <form id="add-project-form">
+        <p>Project Naam</p><input id="projectName" type="text">
+        <p>Begin datum</p><input id="startDate" type="text">
+        <p>Eind datum</p><input id="endDate" type="text">
+        <p>Bescrijving</p><textarea id="description" cols="30" rows="10" style="resize: vertical;"></textarea>
+    </form>
+    <button onclick="submit();">Toevoegen</button>
+</body>
+</html>

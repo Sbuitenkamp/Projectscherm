@@ -45,7 +45,6 @@ app.post('/moment', (req, res) => {
 async function create(table, values) {
     if (!table) return;
     if (!values) return;
-    console.log('yes')
     return await db[table].create(values).catch(e => console.error(e));
 }
 
@@ -66,5 +65,6 @@ async function update(table, values, options) {
 async function destroy(table, options) {
     if (!table) return;
     if (!options) options = {};
-    return await db[table].destroy(options);
+    const result = await db[table].destroy(options);
+    return `${result} rows affected`;
 }

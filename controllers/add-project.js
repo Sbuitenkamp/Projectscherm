@@ -2,6 +2,7 @@ function submit() {
     const form = document.getElementById('add-project-form');
     const formData = {
         managerId: 1,
+        status: 1,
         projectName: form.projectName.value,
         description: form.description.value
     };

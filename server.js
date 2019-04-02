@@ -3,6 +3,8 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const fs = require('fs');
 const moment = require('moment');
+const passwordHash = require("password-hash");
+const unPasswordHash = require('password-hash');
 const db = require('./models/db')();
 const app = express();
 const port = process.env.PORT || 4200;
@@ -41,6 +43,19 @@ app.post('/moment', (req, res) => {
     console.log(dates);
     res.send(dates);
 });
+
+// use to hash passwords
+app.post('/hash', (req, res) => {
+    res.send(passwordHash.generate(req.body.password));
+});
+
+// use to unhash passwords
+app.post('/unhash', (req, res) => {
+    let hashedPassword = 'sha1$9f308d24$1$362bc84dc442088801a9a17f52cbe55d6e47adde';
+    
+    res.send(unPasswordHash.verify(req.body.password, hashedPassword)); // true
+    // console.log(passwordHash.verify(req.body.password, hashedPassword)); // false
+ });
 
 // query functions
 async function create(table, values) {

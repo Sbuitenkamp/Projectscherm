@@ -37,7 +37,8 @@ app.post('/destroy', async (req, res) => res.send(await destroy(req.body.table, 
 // use to format dd-mm-yyyy
 app.post('/moment', (req, res) => {
     const dates = {};
-    for (const date in req.body.dates) dates[date] = moment(req.body.dates[date], 'dd-mm-yyyy').format('x');
+    for (const date in req.body.dates) dates[date] = moment(req.body.dates[date], 'dd-mm-yyyy').format('yyyy-mm-dd');
+    console.log(dates);
     res.send(dates);
 });
 

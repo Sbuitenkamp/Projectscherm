@@ -3,7 +3,13 @@ module.exports = () => {
     const sequelize = new Sequelize('projectscherm', 'root', '', {
         host: 'localhost',
         dialect: 'mysql',
-        logging: false
+        logging: false,
+        dialectOptions: {
+            typeCast: (field, next) => {
+                if (field.type === 'DATETIME' || field.type === 'TIMESTAMP') return new Date(field.string() + 'Z');
+                return next();
+            }
+        }
     });
     const teams = sequelize.define('teams', {
         id: {
@@ -62,8 +68,8 @@ module.exports = () => {
             type: Sequelize.INTEGER,
             defaultValue: 0
         },
-        startDate: { type: Sequelize.INTEGER },
-        endDate: { type: Sequelize.INTEGER },
+        startDate: { type: Sequelize.DATEONLY },
+        endDate: { type: Sequelize.DATEONLY },
         delay: { type: Sequelize.INTEGER },
         description: {
             type: Sequelize.STRING,

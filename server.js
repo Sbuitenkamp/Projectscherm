@@ -48,7 +48,7 @@ app.post('/hash', (req, res) => res.send(generate(req.body.password)));
 
 // use to unhash passwords
 app.post('/unhash', (req, res) => {
-    let hashedPassword = 'sha1$9f308d24$1$362bc84dc442088801a9a17f52cbe55d6e47adde';
+    let hashedPassword = req.body.hash;
     res.send(verify(req.body.password, hashedPassword));
 });
 

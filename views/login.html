@@ -14,6 +14,7 @@
   </head>
 
   <body>
+    <div class="form-container">
     <form id="login-form" action="">
       <div class="container">
         <label for="lblUsername"><b>Username</b></label>
@@ -27,12 +28,12 @@
           name="password"
           required
         />
-      </div>
-
-      <div class="container">
-        <span class="psw"><a href="#">Forgot password?</a></span>
-      </div>
+      </div>      
     </form>
-    <button type="submit" onclick="unHashPassword()">Login</button>
+    <button type="submit" onclick="submit()">Login</button>
+          <div class="container">
+            <span class="psw"><a href="#">Forgot password?</a></span>
+          </div>
+  </div>
   </body>
 </html>

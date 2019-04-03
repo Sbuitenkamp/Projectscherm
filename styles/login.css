@@ -54,7 +54,7 @@ span.psw {
   padding-top: 16px;
 }
 
-form {
+.form-container {
   position: absolute;
   top: 50%;
   left: 50%;

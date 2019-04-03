@@ -15,18 +15,7 @@ window.onload = () => {
             where: { managerId: '1' },
             order: [['lastUpdate', 'ASC']]
         }
-    }, data => {
-        data.forEach((result) => {
-            const index = result.id;
-            document.getElementById('project-overview').innerHTML += `<tr id="result${index}"></tr>`;
-            for (const col in result) {
-                if (col.trim().toLowerCase() === 'id') continue;
-                parseDates(result, col);
-                document.getElementById(`result${index}`).innerHTML += `<td>${result[col] || 'geen'}</td>`
-            }
-            document.getElementById(`result${index}`).innerHTML += `<td><button onclick="remove(${index});">Verwijderen</button></td>`
-        });
-    });
+    }, data => renderSelectData({ data, tableId: 'project-overview', deleteBtn: true }));
 };
 
 function remove(id) {

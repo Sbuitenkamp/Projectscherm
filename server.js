@@ -1,4 +1,5 @@
 const express = require('express');
+const session = require('express-session');
 const bodyParser = require('body-parser');
 const path = require('path');
 const fs = require('fs');
@@ -14,10 +15,16 @@ app.use(express.static(`${__dirname}/controllers`));
 app.use(express.static(`${__dirname}/styles`));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(session({
+    secret: 'khalid is niet wit',
+    resave: true,
+    saveUninitialized: true
+}));
 
 // GET/POST
 app.get('/', (req, res) => res.redirect('/index'));
 app.get('/:path', (req, res) => {
+    if (!['index', 'login', 'overview'].includes(req.params.path) && !req.session.user) return res.redirect('/login');
     if (req.params.path.includes('.')) {
         req.params.path = (() => {
             const parts = req.params.path.split(/\.+/g);
@@ -47,9 +54,10 @@ app.post('/moment', (req, res) => {
 app.post('/hash', (req, res) => res.send(generate(req.body.password)));
 
 // use to unhash passwords
-app.post('/unhash', (req, res) => {
-    let hashedPassword = req.body.hash;
-    res.send(verify(req.body.password, hashedPassword));
+app.post('/verify', (req, res) => {
+    const verified = verify(req.body.password, req.body.hash);
+    if (verified) req.session.user = req.body.id;
+    res.send(verified);
 });
 
 // query functions

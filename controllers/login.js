@@ -1,51 +1,46 @@
-
 // TODO: the hash function should later be moved to the projectmangerpage
-function hashPassword() {
-    const password = document.getElementById("login-form").password.value;
-    console.log(password);
 
-    $.post('/hash', { password }, hashedPass => {
-        console.log(hashedPass);
-    });
-}
-
-// unhash function
-function unHashPassword(hashedPassword) {
-  const form = document.getElementById('login-form');
-
-    const dataToCompare = {
-      password: form.password.value,
-      hash: hashedPassword
-    }
-  
-    return $.post('/unhash', dataToCompare, passMatched => {
-      passMatched;
-    });
-  }
-
-  // login
-  function submit() {
-    const table = 'managers';
+// login
+async function submit() {
     const form = document.getElementById('login-form');
-    const formData = {
-        username: form.username.value,
-        password: form.password.value
-    };
-
-    $.post('/select', {
-      table,
-      options: {
-          attributes: [
-            'username',
-            'password'
-          ],
-          where: { username: formData.username }
-      }
-  }, data => {
-    data.forEach((result) => {
-      unHashPassword(result.password); // how to know if the object is true or false?
-
-      //TODO: create session if unHashPassword() password returns true
-  });
-  });
+    const username = form.username.value;
+    const password = form.password.value;
+    let userdata;
+    await $.post('/select', {
+        table: 'managers',
+        options: {
+            attributes: [
+                'id',
+                'password'
+            ],
+            where: { username }
+        }
+    }, data => {
+        if (!userdata) userdata = {
+            ...data[0],
+            table: 'managers'
+        };
+    });
+    await $.post('/select', {
+        table: 'teams',
+        options: {
+            attributes: [
+                'id',
+                'password'
+            ],
+            where: { username }
+        }
+    }, data => {
+        if (!userdata) userdata = {
+            ...data[0],
+            table: 'teams'
+        };
+    });
+    $.post('/verify', { password, hash: userdata.password, id: userdata.id }, passMatched => {
+        if (passMatched) {
+            console.log('yes');
+            if (userdata.table === 'managers') window.location = '/manager-overview';
+            else window.location = '/team-overview';
+        }
+    });
 }

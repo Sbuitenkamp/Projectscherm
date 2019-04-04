@@ -21,3 +21,12 @@ function renderSelectData({ data, tableId, deleteBtn }) {
         if (deleteBtn) document.getElementById(`result${index}`).innerHTML += `<td><button onclick="remove(${index});">Verwijderen</button></td>`
     });
 }
+
+function hashPassword(password) {
+    let result;
+    new Promise(resolve => {
+        $.post('/hash', { password }, hashedPass => resolve(hashedPass));
+    }).then(res => result = res);
+    return result;
+    // TODO implement into managerpage
+}

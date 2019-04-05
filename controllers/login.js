@@ -1,6 +1,9 @@
-// TODO: the hash function should later be moved to the projectmangerpage
+window.onload = () => {
+    $.post('/send-session', null, session => {
+        if (session) window.location = `${session.isAdmin ? 'manager' : 'team'}-overview`;
+    });
+};
 
-// login
 async function submit() {
     const form = document.getElementById('login-form');
     const username = form.username.value;
@@ -16,7 +19,7 @@ async function submit() {
             where: { username }
         }
     }, data => {
-        if (!userdata) userdata = {
+        if (!userdata && data[0]) userdata = {
             ...data[0],
             table: 'managers'
         };
@@ -31,16 +34,12 @@ async function submit() {
             where: { username }
         }
     }, data => {
-        if (!userdata) userdata = {
+        if (!userdata && data[0]) userdata = {
             ...data[0],
             table: 'teams'
         };
     });
-    $.post('/verify', { password, hash: userdata.password, id: userdata.id }, passMatched => {
-        if (passMatched) {
-            console.log('yes');
-            if (userdata.table === 'managers') window.location = '/manager-overview';
-            else window.location = '/team-overview';
-        }
+    $.post('/verify', { password, hash: userdata.password, id: userdata.id, table: userdata.table }, passMatched => {
+        if (passMatched) window.location = `/${userdata.table.slice(0, -1)}-overview`;
     });
 }

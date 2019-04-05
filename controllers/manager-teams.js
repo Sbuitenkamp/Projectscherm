@@ -22,6 +22,10 @@ window.onload = () => {
                     names.forEach((name, index) => names[index] = name.charAt(0).toUpperCase() + name.slice(1));
                     result[col] = names.join(', ');
                 }
+                if (col.trim().toLowerCase() === 'password') {
+                    // $.post('/unhash')
+                    // TODO unhash function
+                }
                 document.getElementById(`result${index}`).innerHTML += `<td>${result[col] || 'geen'}</td>`
             }
             document.getElementById(`result${index}`).innerHTML += `<td><button onclick="remove(${index});">Verwijderen</button></td>`

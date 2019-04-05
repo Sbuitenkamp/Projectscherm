@@ -12,21 +12,18 @@ function parseDates(table, col) {
 function renderSelectData({ data, tableId, deleteBtn }) {
     data.forEach((result) => {
         const index = result.id;
-        document.getElementById(tableId).innerHTML += `<tr id="result${index}"></tr>`;
+        document.getElementById(tableId).innerHTML += `<tr id='result${index}'></tr>`;
         for (const col in result) {
             if (col.trim().toLowerCase() === 'id') continue;
             parseDates(result, col);
             document.getElementById(`result${index}`).innerHTML += `<td>${result[col] || 'geen'}</td>`
         }
-        if (deleteBtn) document.getElementById(`result${index}`).innerHTML += `<td><button onclick="remove(${index});">Verwijderen</button></td>`
+        if (deleteBtn) document.getElementById(`result${index}`).innerHTML += `<td><button onclick='remove(${index});'>Verwijderen</button></td>`
     });
 }
 
-function hashPassword(password) {
-    let result;
-    new Promise(resolve => {
-        $.post('/hash', { password }, hashedPass => resolve(hashedPass));
-    }).then(res => result = res);
-    return result;
-    // TODO implement into managerpage
+function logOut() {
+    $.post('/logout', null, completed => {
+        if (completed) window.location = '/';
+    });
 }

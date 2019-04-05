@@ -1,4 +1,11 @@
 /*Main style for all pages*/
+
+.header {
+    width: 100vw;
+    background-color: #666;
+    height: 50px;
+}
+
 .menu-button {
     display: block;
     background-color: #888;

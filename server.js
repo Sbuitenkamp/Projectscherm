@@ -3,8 +3,9 @@ const session = require('express-session');
 const bodyParser = require('body-parser');
 const path = require('path');
 const fs = require('fs');
+const temp = require('templatesjs');
 const moment = require('moment');
-const { generate, verify } = require("password-hash");
+const { generate, verify } = require('password-hash');
 const db = require('./models/db')();
 const app = express();
 const port = process.env.PORT || 4200;
@@ -25,6 +26,7 @@ app.use(session({
 app.get('/', (req, res) => res.redirect('/index'));
 app.get('/:path', (req, res) => {
     if (!['index', 'login', 'overview'].includes(req.params.path) && !req.session.user) return res.redirect('/login');
+    if (req.params.path.match(/manager+/) && !req.session.user.isAdmin) return res.sendFile(`${__dirname}/views/unauthorized.html`);
     if (req.params.path.includes('.')) {
         req.params.path = (() => {
             const parts = req.params.path.split(/\.+/g);
@@ -33,7 +35,14 @@ app.get('/:path', (req, res) => {
         })();
     }
     const url = path.join(`${__dirname}/views/${req.params.path}.html`);
-    if (fs.existsSync(url)) res.sendFile(url);
+    if (fs.existsSync(url)) {
+        fs.readFile(url, (err, data) => {
+            if (err) throw err;
+            const output = temp.setSync(data);
+            res.end(output);
+        });
+        // res.sendFile(url);
+    }
     else res.send('404 Page not found');
 });
 
@@ -53,11 +62,17 @@ app.post('/moment', (req, res) => {
 // use to hash passwords
 app.post('/hash', (req, res) => res.send(generate(req.body.password)));
 
-// use to unhash passwords
+// use to verify passwords
 app.post('/verify', (req, res) => {
     const verified = verify(req.body.password, req.body.hash);
-    if (verified) req.session.user = req.body.id;
+    if (verified) req.session.user = { id: req.body.id, isAdmin: req.body.table === 'managers' };
     res.send(verified);
+});
+
+app.post('/send-session', (req, res) => res.send(req.session.user));
+app.post('/logout', (req, res) => {
+    req.session.destroy();
+    res.send(true);
 });
 
 // query functions
@@ -70,20 +85,20 @@ async function create(table, values) {
 async function select(table, options) {
     if (!table) return;
     if (!options) options = {};
-    if (options.limit === 1) return await db[table].findOne(options);
-    else return await db[table].findAll(options);
+    if (options.limit === 1) return await db[table].findOne(options).catch(e => console.error(e));
+    else return await db[table].findAll(options).catch(e => console.error(e));
 }
 
 async function update(table, values, options) {
     if (!table) return;
     if (!values) return;
     if (!options) options = {};
-    return await db[table].update(values, options);
+    return await db[table].update(values, options).catch(e => console.error(e));
 }
 
 async function destroy(table, options) {
     if (!table) return;
     if (!options) options = {};
-    const result = await db[table].destroy(options);
+    const result = await db[table].destroy(options).catch(e => console.error(e));
     return `${result} rows affected`;
 }

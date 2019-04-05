@@ -77,10 +77,29 @@ module.exports = () => {
         },
         lastUpdate: { type: Sequelize.INTEGER }
     });
+    const tasks = sequelize.define('tasks', {
+        id: {
+            type: Sequelize.INTEGER,
+            primaryKey: true,
+            autoIncrement: true,
+            allowNull: false
+        },
+        teamId: {
+            type: Sequelize.INTEGER,
+            allowNull: false
+        },
+        taskName: {
+            type: Sequelize.STRING,
+            allowNull: false
+        },
+        description: { type: Sequelize.STRING },
+        isApproved: { type: Sequelize.BOOLEAN }
+    });
     const tables = {
         teams,
         managers,
-        projects
+        projects,
+        tasks
     };
     for (const table in tables) tables[table].sync();
     return tables;

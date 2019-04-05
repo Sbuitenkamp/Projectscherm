@@ -27,6 +27,7 @@ app.get('/', (req, res) => res.redirect('/index'));
 app.get('/:path', (req, res) => {
     if (!['index', 'login', 'overview'].includes(req.params.path) && !req.session.user) return res.redirect('/login');
     if (req.params.path.match(/manager+/) && !req.session.user.isAdmin) return res.sendFile(`${__dirname}/views/unauthorized.html`);
+    if (req.params.path.match(/team+/) && req.session.user.isAdmin) return res.sendFile(`${__dirname}/views/unauthorized.html`);
     if (req.params.path.includes('.')) {
         req.params.path = (() => {
             const parts = req.params.path.split(/\.+/g);
@@ -41,7 +42,6 @@ app.get('/:path', (req, res) => {
             const output = temp.setSync(data);
             res.end(output);
         });
-        // res.sendFile(url);
     }
     else res.send('404 Page not found');
 });

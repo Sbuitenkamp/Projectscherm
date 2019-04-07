@@ -1,11 +1,11 @@
-function submit() {
+async function submit() {
     const form = document.getElementById('add-project-form');
     const formData = {
-        managerId: 1,
         status: 1,
         projectName: form.projectName.value,
         description: form.description.value
     };
+    await $.post('/send-session', null, session => formData.managerId = session.id);
     $.post('/moment', {
         dates: {
             startDate: form.startDate.value,

@@ -3,20 +3,15 @@ async function submit() {
     const formData = {
         status: 1,
         projectName: form.projectName.value,
-        description: form.description.value
+        description: form.description.value,
+        startDate: form.startDate.value,
+        endDate: form.endDate.value
     };
     await $.post('/send-session', null, session => formData.managerId = session.id);
-    $.post('/moment', {
-        dates: {
-            startDate: form.startDate.value,
-            endDate: form.endDate.value
-        }
-    }, dates => {
-        for (const date in dates) formData[date] = dates[date];
-        for (const key in formData) {
-            if (key === 'description') continue;
-            if (!formData[key]) return alert('Zorg ervoor dat alle velden zijn ingevuld!');
-        }
-        $.post('/create', { table: 'projects', options: { ...formData } }, () => window.location = '/manager-projects');
-    });
+
+    for (const key in formData) {
+        if (key === 'description') continue;
+        if (!formData[key]) return alert('Zorg ervoor dat alle velden zijn ingevuld!');
+    }
+    $.post('/create', { table: 'projects', options: { ...formData } }, () => window.location = '/manager-projects');
 }

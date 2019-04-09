@@ -3,7 +3,16 @@ function parseDates(table, col) {
     if (['startDate', 'endDate'].includes(col)) {
         table[col] = (() => {
             const date = new Date(table[col]);
-            return `${date.getDay()}-${date.getMonth()}-${date.getFullYear()}`;
+            let month = String(date.getMonth() + 1);
+            let day = String(date.getDate());
+            const year = String(date.getFullYear());
+            if (day.length < 2) {
+                day = '0' + day;
+            }
+            if (month.length < 2) {
+                month = '0' + month;
+            }
+            return `${day}-${month}-${year}`;
         })();
     }
     if (col === 'delay') table[col] = table[col] ? `+${table[col]} ${table[col] === 1 ? ' dag' : 'dagen'}` : 'geen';

@@ -26,8 +26,8 @@ app.use(session({
 app.get('/', (req, res) => res.redirect('/index'));
 app.get('/:path', (req, res) => {
     if (!['index', 'login', 'overview'].includes(req.params.path) && !req.session.user) return res.redirect('/login');
-    if (req.params.path.match(/manager+/) && !req.session.user.isAdmin) return res.sendFile(`${__dirname}/views/unauthorized.html`);
-    if (req.params.path.match(/team+/) && req.session.user.isAdmin) return res.sendFile(`${__dirname}/views/unauthorized.html`);
+    if (req.params.path.match(/manager-+/) && !req.session.user.isAdmin) return res.sendFile(`${__dirname}/views/unauthorized.html`);
+    else if (req.params.path.match(/team-+/) && req.session.user.isAdmin) return res.sendFile(`${__dirname}/views/unauthorized.html`);
     if (req.params.path.includes('.')) {
         req.params.path = (() => {
             const parts = req.params.path.split(/\.+/g);
@@ -70,6 +70,10 @@ app.post('/verify', (req, res) => {
 });
 
 app.post('/send-session', (req, res) => res.send(req.session.user));
+app.post('/save-id', (req, res) => {
+    req.session.user.savedId = req.body.id;
+    res.end();
+});
 app.post('/logout', (req, res) => {
     req.session.destroy();
     res.send(true);

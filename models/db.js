@@ -3,13 +3,7 @@ module.exports = () => {
     const sequelize = new Sequelize('projectscherm', 'root', '', {
         host: 'localhost',
         dialect: 'mysql',
-        logging: false,
-        dialectOptions: {
-            typeCast: (field, next) => {
-                if (field.type === 'DATETIME' || field.type === 'TIMESTAMP') return new Date(field.string() + 'Z');
-                return next();
-            }
-        }
+        logging: false
     });
     const teams = sequelize.define('teams', {
         id: {
@@ -43,7 +37,6 @@ module.exports = () => {
             allowNull: false
         },
         password: { type: Sequelize.STRING },
-        teams: { type: Sequelize.STRING }
     });
     const projects = sequelize.define('projects', {
         id: {
@@ -101,6 +94,14 @@ module.exports = () => {
         projects,
         tasks
     };
-    for (const table in tables) tables[table].sync();
+    for (const table in tables) {
+        tables[table].sync().then(() => console.log(`Loaded ${table} successfully`));
+    }
+
+    managers.hasMany(teams, { foreignKey: 'managerId', as: 'teams' });
+    managers.hasMany(projects, { foreignKey: 'managerId', as: 'managerProjects' });
+    projects.hasOne(teams, { sourceKey: 'teamId', foreignKey: 'id', as: 'teamProject' });
+    teams.hasMany(tasks, { foreignKey: 'teamId', as: 'tasks' });
+
     return tables;
 };

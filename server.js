@@ -6,7 +6,7 @@ const fs = require('fs');
 const temp = require('templatesjs');
 const moment = require('moment');
 const { generate, verify } = require('password-hash');
-const db = require('./models/db')();
+const db = require('./models/db');
 const app = express();
 const port = process.env.PORT || 4200;
 

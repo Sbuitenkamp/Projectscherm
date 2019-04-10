@@ -1,10 +1,17 @@
-const Sequelize = require('sequelize');
-module.exports = () => {
-    const sequelize = new Sequelize('projectscherm', 'root', '', {
-        host: 'localhost',
+const Sequelize= require('sequelize');
+const { dbName, host, user, pw } = require('../config.json');
+(async () => {
+    const sequelize = new Sequelize(dbName, user, pw, {
+        host,
         dialect: 'mysql',
         logging: false
     });
+    sequelize.authenticate()
+        .then(() => {
+            console.log('DB connection sucessful.');
+        })
+        .catch(async () => {
+        });
     const teams = sequelize.define('teams', {
         id: {
             type: Sequelize.INTEGER,
@@ -18,7 +25,7 @@ module.exports = () => {
         },
         username: {
             type: Sequelize.STRING,
-            validate: { is: ["[a-z]", 'i'] },
+            validate: { is: ['[a-z]', 'i'] },
             allowNull: false
         },
         password: { type: Sequelize.STRING },
@@ -33,7 +40,7 @@ module.exports = () => {
         },
         username: {
             type: Sequelize.STRING,
-            validate: { is: ["[a-z]", 'i'] },
+            validate: { is: ['[a-z]', 'i'] },
             allowNull: false
         },
         password: { type: Sequelize.STRING },
@@ -88,14 +95,17 @@ module.exports = () => {
         description: { type: Sequelize.STRING },
         isApproved: { type: Sequelize.BOOLEAN }
     });
+
     const tables = {
         teams,
         managers,
         projects,
         tasks
     };
+
     for (const table in tables) {
-        tables[table].sync().then(() => console.log(`Loaded ${table} successfully`));
+        await tables[table].sync();
+        console.log(`Loaded ${table} successfully`);
     }
 
     managers.hasMany(teams, { foreignKey: 'managerId', as: 'teams' });
@@ -103,5 +113,5 @@ module.exports = () => {
     projects.hasOne(teams, { sourceKey: 'teamId', foreignKey: 'id', as: 'teamProject' });
     teams.hasMany(tasks, { foreignKey: 'teamId', as: 'tasks' });
 
-    return tables;
-};
+    module.exports = tables;
+})();

@@ -1,5 +1,6 @@
 const Sequelize= require('sequelize');
 const { dbName, host, user, pw } = require('../config.json');
+let tables;
 (async () => {
     const sequelize = new Sequelize(dbName, user, pw, {
         host,
@@ -96,7 +97,7 @@ const { dbName, host, user, pw } = require('../config.json');
         isApproved: { type: Sequelize.BOOLEAN }
     });
 
-    const tables = {
+    tables = {
         teams,
         managers,
         projects,
@@ -112,6 +113,6 @@ const { dbName, host, user, pw } = require('../config.json');
     managers.hasMany(projects, { foreignKey: 'managerId', as: 'managerProjects' });
     projects.hasOne(teams, { sourceKey: 'teamId', foreignKey: 'id', as: 'teamProject' });
     teams.hasMany(tasks, { foreignKey: 'teamId', as: 'tasks' });
-
-    module.exports = tables;
 })();
+
+module.exports = tables;

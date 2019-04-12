@@ -1,10 +1,21 @@
 <%include views/header.html%>
 <head>
+    <script src="manager-overview.js"></script>
     <title>Manager index</title>
     <script src="manager-overview.js"></script>
 </head>
 <body>
     <a class="menu-button" href="/manager-projects">Projecten</a>
     <a class="menu-button" href="/manager-teams">Teams</a>
+
+    <table id="requests-overview">
+        <tr>
+            <th>project naam</th>
+            <th>Leden</th>
+            <th>Huidige Status</th>
+            <th>Aangevraagde Status</th>
+            <th>Omschrijving</th>
+        </tr>
+    </table>
 </body>
 </html>

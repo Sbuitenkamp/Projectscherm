@@ -100,11 +100,41 @@ let tables;
         isApproved: { type: Sequelize.BOOLEAN }
     });
 
+    const requests = sequelize.define('requests', {
+        id: {
+            type: Sequelize.INTEGER,
+            primaryKey: true,
+            autoIncrement: true,
+            allowNull: false
+        },
+        teamId: {
+            type: Sequelize.INTEGER,
+            allowNull: false
+        },
+        taskId: {
+            type: Sequelize.INTEGER,
+            allowNull: false
+        },
+        managerId: {
+            type: Sequelize.INTEGER,
+            allowNull: false
+        },
+        requestedStatus: {
+            type: Sequelize.INTEGER,
+            allowNull: false
+        },
+        projectId: {
+            type: Sequelize.INTEGER,
+            allowNull: false
+        },
+        description: { type: Sequelize.STRING },
+    });
     tables = {
         teams,
         managers,
         projects,
-        tasks
+        tasks,
+        requests
     };
 
     for (const table in tables) {
@@ -115,7 +145,9 @@ let tables;
     managers.hasMany(teams, { foreignKey: 'managerId', as: 'managerTeams' });
     managers.hasMany(projects, { foreignKey: 'managerId', as: 'managerProjects' });
     projects.hasOne(teams, { sourceKey: 'teamId', foreignKey: 'id', as: 'teamProject' });
-    teams.hasMany(tasks, { foreignKey: 'teamId', as: 'teamTasks' });
+
+    teams.hasMany(tasks, { foreignKey: 'teamId', as: 'tasks' });
+    requests.hasMany(teams, { sourceKey: 'teamId', foreignKey: 'id', as: 'requestTeams' });
 })();
 
 module.exports = tables;

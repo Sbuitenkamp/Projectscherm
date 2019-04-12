@@ -22,6 +22,12 @@ app.use(session({
     saveUninitialized: true
 }));
 
+// post request status update
+app.post('/request',  (req, res) => {
+    
+    res.end();
+});
+
 // GET/POST
 app.get('/', (req, res) => res.redirect('/index'));
 app.get('/:path', (req, res) => {

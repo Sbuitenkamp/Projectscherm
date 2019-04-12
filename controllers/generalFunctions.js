@@ -15,6 +15,7 @@ function parseDates(table, col) {
 }
 
 function renderSelectData({ data, tableId, deleteBtn, editBtn }) {
+    console.log(tableId);
     data.forEach((result) => {
         const index = result.id;
         document.getElementById(tableId).innerHTML += `<tr id='result${index}'></tr>`;

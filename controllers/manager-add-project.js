@@ -7,6 +7,7 @@ async function submit() {
         startDate: form.startDate.value,
         endDate: form.endDate.value
     };
+
     await $.post('/send-session', null, session => formData.managerId = session.id);
 
     for (const key in formData) {

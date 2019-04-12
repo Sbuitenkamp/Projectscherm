@@ -58,7 +58,7 @@ let tables;
         },
         managerId: {
             type: Sequelize.INTEGER,
-            allowNull: true
+            allowNull: false
         },
         teamId: {
             type: Sequelize.INTEGER,
@@ -144,9 +144,8 @@ let tables;
 
     managers.hasMany(teams, { foreignKey: 'managerId', as: 'managerTeams' });
     managers.hasMany(projects, { foreignKey: 'managerId', as: 'managerProjects' });
-    projects.hasOne(teams, { sourceKey: 'teamId', foreignKey: 'id', as: 'teamProject' });
-
-    teams.hasMany(tasks, { foreignKey: 'teamId', as: 'tasks' });
+    projects.hasOne(teams, { sourceKey: 'teamId', foreignKey: 'id', as: 'projectTeam' });
+    teams.hasMany(tasks, { foreignKey: 'teamId', as: 'teamTasks' });
     requests.hasMany(teams, { sourceKey: 'teamId', foreignKey: 'id', as: 'requestTeams' });
 })();
 

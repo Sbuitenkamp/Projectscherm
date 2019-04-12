@@ -15,7 +15,7 @@ window.onload = () => {
                 'description'
             ],
             include: [{
-                association: 'teamProject',
+                association: 'projectTeam',
                 attributes: ['username']
             }],
             where: { managerId: id },

@@ -129,6 +129,7 @@ let tables;
         },
         description: { type: Sequelize.STRING },
     });
+
     tables = {
         teams,
         managers,
@@ -146,7 +147,7 @@ let tables;
     managers.hasMany(projects, { foreignKey: 'managerId', as: 'managerProjects' });
     projects.hasOne(teams, { sourceKey: 'teamId', foreignKey: 'id', as: 'projectTeam' });
     teams.hasMany(tasks, { foreignKey: 'teamId', as: 'teamTasks' });
-    requests.hasMany(teams, { sourceKey: 'teamId', foreignKey: 'id', as: 'requestTeams' });
+    teams.hasMany(requests, { foreignKey: 'teamId', as: 'teamRequests' });
 })();
 
 module.exports = tables;

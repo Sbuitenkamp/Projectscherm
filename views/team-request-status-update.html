@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>status update</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="generalFunctions.js"></script>
+    <script src="team-request-status-update.js"></script>
+</head>
+<body>
+<form id="request-status-update-form">
+        <p>Status:</p>
+    <select name="select-status" id="status">
+        <option value="0">Not yet launched</option>
+        <option value="1">Team assigned</option>
+        <option value="2">Questioning</option>
+        <option value="3">Go Ahead</option>
+        <option value="4">Development</option>
+        <option value="5">Testing</option>
+        <option value="6">Final testings</option>
+        <option value="7">Crashed</option>
+        <option value="8">Completed</option>
+    </select>
+    <p>Omschrijving:</p><input id="description" type="text">
+    <p>volbrachte taken:</p><input id="completedTasks" type="text">
+</form>
+<button onclick="submit();">Request</button>
+</body>
+</html>

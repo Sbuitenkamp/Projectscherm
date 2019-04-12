@@ -1,29 +1,63 @@
 let id;
+let form;
 window.onload = () => {
-    const dropdown = document.getElementById('teamlist');
+    form = document.getElementById('edit-project-form');
     $.post('/send-session', null, session => {
         id = session.savedId;
         $.post('/select', {
-            table: 'teams',
+            table: 'projects',
             options: {
                 attributes: [
-                    'id',
-                    'username'
+                    'teamId',
+                    'projectName',
+                    'status',
+                    'startDate',
+                    'endDate',
+                    'description'
                 ],
+                include: [{
+                    association: 'projectTeam',
+                    attributes: [
+                        'id',
+                        'username'
+                    ]
+                }],
                 where: { managerId: session.id },
             }
-        }, data => {
-            for (const team of data) dropdown.innerHTML += `<option value="${team.id}">${team.username}</option>`;
+        }, projectData => {
+            $.post('/select', {
+                table: 'teams',
+                options: {
+                    attributes: [
+                        'id',
+                        'username'
+                    ],
+                    where: { managerId: session.id },
+                }
+            }, teams => {
+                console.log(projectData[0]);
+                console.log(teams);
+                for (const key in projectData[0]) {
+                    if (projectData[0][key]) form[key].value = projectData[0][key].toString();
+                }
+                for (const team of teams) form.teamList.innerHTML += `<option value="${team.id}">${team.username}</option>`;
+            });
         });
     });
 };
 
 function submit() {
-    const dropdown = document.getElementById('teamlist');
-    console.log(dropdown.value);
+    console.log(form.teamList.value);
     $.post('/update', {
         table: 'projects',
-        values: { teamId: dropdown.value },
+        values: {
+            teamId: form.teamList.value,
+            projectName: form.projectName.value,
+            status: form.status.value,
+            startDate: form.startDate.value,
+            endDate: form.endDate.value,
+            description: form.description.value
+        },
         options: { where: { id } }
     }, result => {
         if (!result) alert('Er is iets misgegaan met het updaten van het project');

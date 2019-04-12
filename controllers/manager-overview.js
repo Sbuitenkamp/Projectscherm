@@ -1,3 +1,4 @@
+const table = 'projects';
 //TODO show status requests (not only the id's but the projectName, team, etc to)
 window.onload = () => {
     $.post('/send-session', null, session => {
@@ -43,8 +44,8 @@ window.onload = () => {
                     <td>${result.status}</td>
                     <td>${result.projectTeam.teamRequests[0].requestedStatus || 'geen'}</td>
                     <td>${result.projectTeam.teamRequests[0].description || 'geen'}</td>`;
-                document.getElementById(`result${index}`).innerHTML += `<td><button onclick="remove(${index});">Verwijderen</button></td>`;
-                document.getElementById(`result${index}`).innerHTML += `<td><button onclick="edit(${index});">Project aanpassen</button></td>`;
+                document.getElementById(`result${index}`).innerHTML += `<td><button onclick="deny(${index});">weigeren</button></td>`;
+                document.getElementById(`result${index}`).innerHTML += `<td><button onclick="accept(${index, result});">accepteren</button></td>`;
             });
         });
 
@@ -52,3 +53,22 @@ window.onload = () => {
 };
 
 //todo: accept, deny, delete request
+
+function accept(id, result) {
+    console.log(result.projectTeam.teamRequests[0].requestedStatus);
+    $.post('/update', {
+        table,
+        values: {
+            status: requestedStatus
+        },
+        options: { where: { id } }
+    }, result => {
+        if (!result) alert('Er is iets misgegaan met het updaten van het project');
+        else window.location = '/manager-overview';
+    });
+}
+
+function deny(id) {
+    const yes = confirm('Weet u zeker dat u deze task wilt verwijderen?');
+    if (yes) $.post('/destroy', { table, options: { where: { id: parseInt(id) } } }, () => location.reload());
+}

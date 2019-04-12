@@ -36,6 +36,8 @@ window.onload = () => {
                 }
             }, teams => {
                 for (const key in projectData[0]) {
+                    console.log(key)
+                    if (key.match(/id+/i) || key.match(/team+/i)) continue;
                     if (projectData[0][key]) form[key].value = projectData[0][key].toString();
                 }
                 for (const team of teams) form.teamList.innerHTML += `<option value="${team.id}">${team.username}</option>`;

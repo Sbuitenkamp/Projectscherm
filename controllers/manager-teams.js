@@ -20,3 +20,8 @@ function remove(id) {
     const yes = confirm('Weet u zeker dat u dit team wilt verwijderen?');
     if (yes) $.post('/destroy', { table, options: { where: { id: parseInt(id) } } }, () => location.reload());
 }
+
+function edit(id) {
+    $.post('/save-id', { id });
+    window.location = '/manager-edit-team';
+}

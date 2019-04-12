@@ -25,7 +25,7 @@ function renderSelectData({ data, tableId, deleteBtn, editBtn }) {
             document.getElementById(`result${index}`).innerHTML += `<td>${result[col] ? result[col].username || result[col] : 'geen'}</td>`
         }
         if (deleteBtn) document.getElementById(`result${index}`).innerHTML += `<td><button onclick="remove(${index});">Verwijderen</button></td>`;
-        if (editBtn) document.getElementById(`result${index}`).innerHTML += `<td><button onclick="edit(${index});">Project aanpassen</button></td>`;
+        if (editBtn) document.getElementById(`result${index}`).innerHTML += `<td><button onclick="edit(${index});">Aanpassen</button></td>`;
     });
 }
 

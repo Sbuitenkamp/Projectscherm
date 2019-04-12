@@ -2,7 +2,6 @@ const table = 'projects';
 let id;
 window.onload = () => {
     $.post('/send-session', null, session => id = session.id);
-
     $.post('/select', {
         table,
         options: {
@@ -25,7 +24,7 @@ window.onload = () => {
     }, data => renderSelectData({ data, tableId: 'project-overview', deleteBtn: true, editBtn: true }));
 };
 
-function editProj(id) {
+function edit(id) {
     $.post('/save-id', { id });
     window.location = '/manager-edit-project';
 }

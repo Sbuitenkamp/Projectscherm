@@ -14,9 +14,8 @@ window.onload = () => {
             }
         }, data => {
             for (const team of data) dropdown.innerHTML += `<option value="${team.id}">${team.username}</option>`;
-        })
+        });
     });
-
 };
 
 function submit() {

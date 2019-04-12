@@ -8,11 +8,8 @@ let tables;
         logging: false
     });
     sequelize.authenticate()
-        .then(() => {
-            console.log('DB connection sucessful.');
-        })
-        .catch(async () => {
-        });
+        .then(() => console.log('DB connection sucessful.'))
+        .catch(e => console.error(e));
     const teams = sequelize.define('teams', {
         id: {
             type: Sequelize.INTEGER,
@@ -27,7 +24,8 @@ let tables;
         username: {
             type: Sequelize.STRING,
             validate: { is: ['[a-z]', 'i'] },
-            allowNull: false
+            allowNull: false,
+            unique: true
         },
         password: { type: Sequelize.STRING },
         members: { type: Sequelize.STRING }
@@ -42,9 +40,14 @@ let tables;
         username: {
             type: Sequelize.STRING,
             validate: { is: ['[a-z]', 'i'] },
-            allowNull: false
+            allowNull: false,
+            unique: true
         },
         password: { type: Sequelize.STRING },
+        superUser: {
+            type: Sequelize.BOOLEAN,
+            defaultValue: false
+        }
     });
     const projects = sequelize.define('projects', {
         id: {
@@ -109,10 +112,10 @@ let tables;
         console.log(`Loaded ${table} successfully`);
     }
 
-    managers.hasMany(teams, { foreignKey: 'managerId', as: 'teams' });
+    managers.hasMany(teams, { foreignKey: 'managerId', as: 'managerTeams' });
     managers.hasMany(projects, { foreignKey: 'managerId', as: 'managerProjects' });
     projects.hasOne(teams, { sourceKey: 'teamId', foreignKey: 'id', as: 'teamProject' });
-    teams.hasMany(tasks, { foreignKey: 'teamId', as: 'tasks' });
+    teams.hasMany(tasks, { foreignKey: 'teamId', as: 'teamTasks' });
 })();
 
 module.exports = tables;

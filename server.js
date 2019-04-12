@@ -46,10 +46,10 @@ app.get('/:path', (req, res) => {
     else res.send('404 Page not found');
 });
 
-app.post('/create', async (req, res) => res.send(await create(req.body.table, req.body.options)));
-app.post('/select', async (req, res) => res.send(await select(req.body.table, req.body.options)));
-app.post('/update', async (req, res) => res.send(await update(req.body.table, req.body.values, req.body.options)));
-app.post('/destroy', async (req, res) => res.send(await destroy(req.body.table, req.body.options)));
+app.post('/create', async (req, res) => res.send(await create(req.body.table, req.body.options).catch(e => console.error(e))));
+app.post('/select', async (req, res) => res.send(await select(req.body.table, req.body.options).catch(e => console.error(e))));
+app.post('/update', async (req, res) => res.send(await update(req.body.table, req.body.values, req.body.options).catch(e => console.error(e))));
+app.post('/destroy', async (req, res) => res.send(await destroy(req.body.table, req.body.options).catch(e => console.error(e))));
 
 // use to format dd-mm-yyyy
 app.post('/moment', (req, res) => {
@@ -65,7 +65,7 @@ app.post('/hash', (req, res) => res.send(generate(req.body.password)));
 // use to verify passwords
 app.post('/verify', (req, res) => {
     const verified = verify(req.body.password, req.body.hash);
-    if (verified) req.session.user = { id: req.body.id, isAdmin: req.body.table === 'managers' };
+    if (verified) req.session.user = { id: req.body.id, isAdmin: req.body.table === 'managers', superUser: req.body.superUser };
     res.send(verified);
 });
 
@@ -89,8 +89,7 @@ async function create(table, values) {
 async function select(table, options) {
     if (!table) return;
     if (!options) options = {};
-    if (options.limit === 1) return await db[table].findOne(options).catch(e => console.error(e));
-    else return await db[table].findAll(options).catch(e => console.error(e));
+    return await db[table].findAll(options).catch(e => console.error(e));
 }
 
 async function update(table, values, options) {

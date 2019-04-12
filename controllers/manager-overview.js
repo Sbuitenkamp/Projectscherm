@@ -38,10 +38,10 @@ window.onload = () => {
                 document.getElementById('request-overview').innerHTML += `<tr id='result${index}'></tr>`;
                 const resElement = document.getElementById(`result${index}`);
                 resElement.innerHTML +=
-                    `<td>${result.projectName}</td>;
-                    <td>${result.projectTeam.members || 'geen'}</td>;
-                    <td>${result.status}</td>;
-                    <td>${result.projectTeam.teamRequests[0].requestedStatus || 'geen'}</td>;
+                    `<td>${result.projectName}</td>
+                    <td>${result.projectTeam.members || 'geen'}</td>
+                    <td>${result.status}</td>
+                    <td>${result.projectTeam.teamRequests[0].requestedStatus || 'geen'}</td>
                     <td>${result.projectTeam.teamRequests[0].description || 'geen'}</td>`;
                 document.getElementById(`result${index}`).innerHTML += `<td><button onclick="remove(${index});">Verwijderen</button></td>`;
                 document.getElementById(`result${index}`).innerHTML += `<td><button onclick="edit(${index});">Project aanpassen</button></td>`;

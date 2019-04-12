@@ -35,8 +35,6 @@ window.onload = () => {
                     where: { managerId: session.id },
                 }
             }, teams => {
-                console.log(projectData[0]);
-                console.log(teams);
                 for (const key in projectData[0]) {
                     if (projectData[0][key]) form[key].value = projectData[0][key].toString();
                 }
@@ -47,7 +45,6 @@ window.onload = () => {
 };
 
 function submit() {
-    console.log(form.teamList.value);
     $.post('/update', {
         table: 'projects',
         values: {

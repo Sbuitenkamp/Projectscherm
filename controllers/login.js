@@ -14,7 +14,8 @@ async function submit() {
         options: {
             attributes: [
                 'id',
-                'password'
+                'password',
+                'superUser'
             ],
             where: { username }
         }
@@ -39,7 +40,9 @@ async function submit() {
             table: 'teams'
         };
     });
-    $.post('/verify', { password, hash: userdata.password, id: userdata.id, table: userdata.table }, passMatched => {
+    if (!userdata) return alert('Onbekende gebruikersnaam.');
+    $.post('/verify', { password, hash: userdata.password, id: userdata.id, table: userdata.table, superUser: userdata.superUser }, passMatched => {
         if (passMatched) window.location = `/${userdata.table.slice(0, -1)}-overview`;
+        else alert('Wachtwoord onjuist.');
     });
 }

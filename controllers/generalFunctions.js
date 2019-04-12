@@ -21,11 +21,10 @@ function renderSelectData({ data, tableId, deleteBtn, editBtn }) {
         for (const col in result) {
             if (col.trim().toLowerCase() === 'id') continue;
             parseDates(result, col);
-            console.log(result);
             document.getElementById(`result${index}`).innerHTML += `<td>${result[col] ? result[col].username || result[col] : 'geen'}</td>`
         }
         if (deleteBtn) document.getElementById(`result${index}`).innerHTML += `<td><button onclick="remove(${index});">Verwijderen</button></td>`;
-        if (editBtn) document.getElementById(`result${index}`).innerHTML += `<td><button onclick="editProj(${index});">Project aanpassen</button></td>`;
+        if (editBtn) document.getElementById(`result${index}`).innerHTML += `<td><button onclick="edit(${index});">Project aanpassen</button></td>`;
     });
 }
 

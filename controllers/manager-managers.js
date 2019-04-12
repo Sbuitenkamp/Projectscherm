@@ -1,4 +1,4 @@
-const table = 'teams';
+const table = 'managers';
 window.onload = () => {
     $.post('/send-session', null, session => {
         $.post('/select', {
@@ -6,13 +6,17 @@ window.onload = () => {
             options: {
                 attributes: [
                     'id',
-                    'username',
-                    'password',
-                    'members'
+                    'username'
                 ],
-                where: { managerId: session.id }
+                include: [{
+                    association: 'managerTeams',
+                    attributes: ['username']
+                }],
+                where: { superUser: false }
             }
-        }, data => renderSelectData({ data, tableId: 'team-overview', deleteBtn: true, editBtn: true }));
+        }, data => {
+            renderSelectData({ data, tableId: 'manager-overview', deleteBtn: true, editBtn: true })
+        });
     });
 };
 

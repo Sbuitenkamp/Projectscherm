@@ -1,8 +1,9 @@
 body {
-  font-family: Arial, Helvetica, sans-serif;
   /* background-color: rgb(255, 255, 255); */
   background-image: url("images/background-image.jpeg");
-  /* min-height: 100vh; */
+  min-height: 100vh;
+  min-width: 100vw;
+  margin: 0 auto;
   background-attachment: fixed;
   background-position: center;
   background-repeat: no-repeat;
@@ -13,8 +14,7 @@ body {
 }
 
 /* input fields */
-input[type="text"],
-input[type="password"] {
+input[type="text"], input[type="password"] {
   width: 100%;
   padding: 12px 20px;
   margin: 8px 0;
@@ -25,21 +25,17 @@ input[type="password"] {
 
 /* button */
 button {
-  background-color: blue;
+  background-color: var(--dark-blue);
   color: white;
   padding: 14px 20px;
   margin: 8px 0;
   border: none;
   cursor: pointer;
-  width: 100%;
+  width: 90%;
 }
 
-a {
-  color: white;
-}
-
-button:hover {
-  opacity: 0.8;
+label, input {
+  color: var(--dark-blue);
 }
 
 /* container */
@@ -61,4 +57,20 @@ span.psw {
   transform: translate(-50%, -50%);
   font-size: 22px;
   text-align: center;
+}
+
+/* reposition header */
+.page-header {
+  width: 25vw;
+  height: 100vh;
+  right: 0;
+  left: auto;
+  border-bottom-right-radius: 0;
+  border-top-left-radius: 60px;
+}
+
+.page-header .roc-logo {
+  width: 75%;
+  height: 12%;
+  margin: 12%;
 }

@@ -1,0 +1,20 @@
+#manager-overview {
+    width: 90%;
+    margin: 0 auto;
+    background-color: orangered;
+}
+
+#manager-overview th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    color: white;
+}
+
+#manager-overview td {
+    color: var(--dark-blue);
+}
+
+#manager-overview td, #manager-overview th {
+    padding: 8px;
+}

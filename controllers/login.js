@@ -1,4 +1,18 @@
 window.onload = () => {
+    document.getElementById('page-header').innerHTML += `
+<div class="form-container">
+    <form id="login-form" action="">
+      <div class="container">
+        <label for="Username"><b>Username</b></label>
+        <input type="text" placeholder="Username" name="username" required />
+
+        <label for="Password"><b>Password</b></label>
+        <input id="password" type="password" placeholder="Password" name="password" required/>
+      </div>      
+    </form>
+    <button type="submit" onclick="submit()">Login</button>
+  </div>
+`.trim();
     $.post('/send-session', null, session => {
         if (session) window.location = `${session.isAdmin ? 'manager' : 'team'}-overview`;
     });

@@ -17,8 +17,6 @@ window.onload = () => {
 });
 };
 
-//TODO: edit tasks(completed/not completed), delete
-
 function edit(id) {
     $.post('/save-id', { id });
     window.location = '/team-edit-task';

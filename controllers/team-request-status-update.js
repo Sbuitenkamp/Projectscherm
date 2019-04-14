@@ -3,13 +3,12 @@ async function submit() {
     const form = document.getElementById('request-status-update-form');
     const formData = {
         requestedStatus: form.status.value,
-        description: form.description.value, 
-        taskId: form.completedTasks.value,
-        // manager-projects.js and db.js for relations 
+        description: form.description.value,
+        taskId: 0
     };
 
     await $.post('/send-session', null, session => formData.teamId = session.id);
-
+    if (!formData.teamId) return alert('geen project toegewezen');
      await $.post('/select', {
         table,
         options: {
@@ -20,12 +19,9 @@ async function submit() {
             where: { teamId: formData.teamId },
         }
     }, data => {
-        // console.log(data[0].id);
         formData.managerId = data[0].managerId; 
         formData.projectId = data[0].id;
     });
     
-    console.log(formData);
-    $.post('/create', { table: 'requests', options: { ...formData } });
+    $.post('/create', { table: 'requests', options: { ...formData } }, () => window.location = '/team-overview.html');
 }
-// , () => window.location = '/team-overview.html')

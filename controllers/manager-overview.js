@@ -32,7 +32,16 @@ window.onload = () => {
             }
         }, data => {
             data.forEach((result) => {
-                if (!result.projectTeam.teamRequests[0]) return;
+
+                if (!result.projectTeam) {
+                    console.log('no team assigned to project');
+                    return;
+                }
+                if (!result.projectTeam.teamRequests[0]){
+                  console.log('no requests');
+                  return;
+                }
+
                 const index = result.id;
                 document.getElementById('request-overview').innerHTML += `<tr id='result${index}'></tr>`;
                 const resElement = document.getElementById(`result${index}`);

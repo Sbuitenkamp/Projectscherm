@@ -1,18 +1,27 @@
 /*Main style for all pages*/
+:root {
+    --dark-blue: #123885;
+}
 
-.page-header {
-    width: 100vw;
-    background-color: #666;
-    height: 50px;
+html {
+    background-color: #a2c0f2;
+    overflow-x: hidden;
 }
 
 .menu-button {
     display: block;
-    background-color: #888;
-    border: solid black 2px;
-    color: black;
+    background-color: var(--dark-blue);
+    border: solid white 2px;
+    color: white;
     text-decoration: none;
-    margin: 5px;
     width: 250px;
     height: 50px;
+    text-align: center;
+    padding-top: 25px;
+    margin: 15px auto;
+}
+
+* {
+    font-family: Arial, Helvetica, sans-serif;
+    text-decoration: none;
 }

@@ -1,0 +1,29 @@
+#project-overview {
+    width: 90%;
+    margin: 0 auto;
+}
+
+#project-overview th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: var(--dark-blue);
+    color: white;
+}
+
+#project-overview td {
+    border: 1px solid var(--dark-blue);
+    color: var(--dark-blue);
+}
+
+#project-overview td, #project-overview th {
+    padding: 8px;
+}
+
+#project-overview tr:nth-child(even){
+    background-color: #f8f8f8;
+}
+
+#project-overview tr:nth-child(odd){
+    background-color: #f2f2f2;
+}
